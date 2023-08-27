@@ -22,6 +22,7 @@ except:
         def __exit__(self, *args):
             pass
 
+
 """
 raft_infer.py 和 raft.py 的不同:
 - iters 参数不同(可能因为训练显存的原因?):
@@ -29,6 +30,7 @@ raft_infer.py 和 raft.py 的不同:
     - raft.py 在小尺寸网络上实际 iters 减半
 - raft_infer 支持 flow_init, This skips the small refinement steps (1/16 and 1/8) and directly starts from the large refine (1/4) step
 """
+
 
 class RAFT(nn.Module):
     def __init__(self, max_disp=192, mixed_precision=False, test_mode=False):

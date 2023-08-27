@@ -138,7 +138,7 @@ class BasicUpdateBlock(nn.Module):
         self.mask = nn.Sequential(
             nn.Conv2d(128, 256, 3, padding=1),
             nn.ReLU(inplace=True),
-            nn.Conv2d(256, mask_size ** 2 * 9, 1, padding=0),
+            nn.Conv2d(256, mask_size**2 * 9, 1, padding=0),
         )
 
     def forward(self, net, inp, corr, flow, upsample=True):
