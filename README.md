@@ -2,7 +2,8 @@
 
 ![](https://github.com/megvii-research/CREStereo/blob/master/img/teaser.jpg?raw=true)
 ## Features
-- Effortlessly by `pip install`
+- Super performance and generalization enabled by [CREStereo](https://github.com/megvii-research/CREStereo)
+- Effortlessly deploy by `pip install`
 - PyTorch version of CREStereo
 - Support both CUDA and CPU
 - Combining with [calibrating](https://github.com/DIYer22/calibrating) to calibrate stereo cameras and get aligned pair of RGB and depth
