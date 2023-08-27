@@ -1,2 +1,4 @@
-from .raft import RAFT as Model
-from .raft_infer import RAFT as Model_infer
+# -*- coding: utf-8 -*-
+
+from .__info__ import __version__, __description__
+from .stereo_matching import Crestereo, CrestereoMatching
