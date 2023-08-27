@@ -1,11 +1,33 @@
 # Effortlessly deploy CREStereo in PyTorch with a simple `pip install`.
 
+![](https://github.com/megvii-research/CREStereo/blob/master/img/teaser.jpg?raw=true)
+## Features
+- Effortlessly by `pip install`
+- PyTorch version of CREStereo
+- Support both CUDA and CPU
+- Combining with [calibrating](https://github.com/DIYer22/calibrating) to calibrate stereo cameras and get aligned pair of RGB and depth
 
-## Run Demo
+## Install
+```bash
+# Install
+pip install git+https://github.com/DIYer22/stereo_matching_crestereo.git
 
-https://raw.githubusercontent.com/megvii-research/CREStereo/master/img/test/left.png
-https://raw.githubusercontent.com/megvii-research/CREStereo/master/img/test/right.png
+# Run stereo matching demo
+python -m stereo_matching_crestereo.stereo_matching
+```
+## Python example
+```Python
+from stereo_matching_crestereo import CrestereoMatching
+matching = CrestereoMatching()
+disparity = matching(rgb1, rgb2)["disparity"]
 
+# Combining with calibrating's stereo to get aligned pair of RGB and depth
+# https://github.com/DIYer22/calibrating
+stereo.set_stereo_matching(matching)
+re = stereo.get_depth(rgb1, rgb2)
+depth = re['unrectify_depth']
+img1_undistort = re['undistort_img1']
+```
 
 ## Citation
 If you find the code or datasets helpful in your research, please cite:
