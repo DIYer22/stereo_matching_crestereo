@@ -27,17 +27,33 @@ class CrestereoMatching(torch.nn.Module):
         self.crestereo.eval()
         self.cfg = cfg
 
-    def __call__(self, rgb1, rgb2):
+    def __call__(self, rgb1, rgb2): # recitfyed RGB imgs
         device = self.device
-        to_tensor = lambda rgb: torch.from_numpy(
+        hw = rgb1.shape[:2]
+        input_hw = self.cfg.get("input_hw")
+        if isinstance(input_hw, (float, int)):
+            if isinstance(input_hw, (float)) or input_hw <= 5:
+                input_hw = [int(round(size * input_hw)) for size in hw]
+            else:
+                input_hw = [int(round(size * input_hw / max(hw))) for size in hw]
+        def to_tensor(rgb): 
+            if input_hw != hw:
+                rgb = boxx.resize(rgb, input_hw)
+            bgr = torch.from_numpy(
             np.ascontiguousarray(rgb[..., ::-1].transpose(2, 0, 1)[None])
         ).to(device)
+            return bgr
         bgr1 = to_tensor(rgb1)
         bgr2 = to_tensor(rgb2)
 
         with torch.no_grad():
             output = self.crestereo(bgr1, bgr2)
         disparity = output[0, 0].data.cpu().numpy()
+        if input_hw != hw:
+            M = np.array([[hw[0]/input_hw[0],0,0],[0,hw[1]/input_hw[1],0]])
+            raw_disparity = cv2.warpAffine(disparity, M, hw[::-1], flags=cv2.INTER_NEAREST)
+            
+            disparity = raw_disparity * hw[1] / input_hw[1]
         return dict(disparity=disparity)
 
     def load_pth(self, pth):
